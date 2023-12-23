@@ -1,10 +1,13 @@
 package com.hamzakhan.customer;
 
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CustomerDataAccessService implements CustomerDAO {
+@Repository("list")
+public class CustomerListDataAccessService implements CustomerDAO {
 
     //db
     private static final List<Customer> customers;
