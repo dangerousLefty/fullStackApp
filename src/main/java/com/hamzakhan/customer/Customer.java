@@ -1,7 +1,6 @@
 package com.hamzakhan.customer;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.util.Objects;
 
@@ -26,6 +25,12 @@ public class Customer {
 
     public Customer(Integer id, String name, String email, Integer age) {
         this.id = id;
+        this.name = name;
+        this.email = email;
+        this.age = age;
+    }
+
+    public Customer(String name, String email, Integer age) {
         this.name = name;
         this.email = email;
         this.age = age;
