@@ -59,4 +59,10 @@ public class CustomerListDataAccessService implements CustomerDAO {
                 .anyMatch(e -> e.getId().equals(cID));
     }
 
+    @Override
+    public void updateCustomer(Customer customer) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateCustomer'");
+    }
+
 }

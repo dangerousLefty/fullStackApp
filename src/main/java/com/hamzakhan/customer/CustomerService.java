@@ -13,7 +13,7 @@ public class CustomerService {
 
     private final CustomerDAO customerDAO;
 
-    public CustomerService(@Qualifier("jpa") CustomerDAO customerDAO){
+    public CustomerService(@Qualifier("jdbc") CustomerDAO customerDAO){
         this.customerDAO = customerDAO;
     }
 
@@ -64,32 +64,39 @@ public class CustomerService {
         //update customer logic
         Customer customerToUpdate = getCustomer(cID);
 
-
         boolean changesExist = false;
 
         if (updateRequest.name() != null && !updateRequest.name().equals(customerToUpdate.getName())){
             customerToUpdate.setName(updateRequest.name());
             changesExist = true;
         }
+        else {
+            customerToUpdate.setName(null);
+        }
 
         if (updateRequest.age() != null && !updateRequest.age().equals(customerToUpdate.getAge())) {
             customerToUpdate.setAge(updateRequest.age());
             changesExist = true;
+        }
+        else {
+            customerToUpdate.setAge(null);
         }
 
         if (updateRequest.email() != null && !updateRequest.email().equals(customerToUpdate.getEmail())){
             customerToUpdate.setEmail(updateRequest.email());
             changesExist = true;
         }
+        else{
+            customerToUpdate.setEmail(null);
+        }
 
         if (changesExist) 
-        customerDAO.insertCustomer(customerToUpdate);
+        customerDAO.updateCustomer(customerToUpdate);
             
         else {
             throw new RequestValidationException("Error! No new values to update in Customer");
         }
 
-        System.out.println("Apples");
     }
 
 
