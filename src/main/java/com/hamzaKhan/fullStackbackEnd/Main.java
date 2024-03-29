@@ -1,5 +1,7 @@
 package com.hamzaKhan.fullStackbackEnd;
 
+import com.github.javafaker.Faker;
+import com.github.javafaker.Name;
 import com.hamzaKhan.fullStackbackEnd.customer.Customer;
 import com.hamzaKhan.fullStackbackEnd.customer.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -23,22 +25,30 @@ public class Main {
 	CommandLineRunner runner(CustomerRepository customerRepository) {
 		//return args -> {};
 		return args -> {
-			Customer alex = new Customer(
-					1,
-					"Alex",
-					"alex@gmail.com",
-					21
+
+			Faker faker = new Faker();
+			Name customerName = faker.name();
+			String email = faker.internet().emailAddress();
+			int age = (int) (Math.random() * 100) % 50;
+			String firstName = customerName.firstName();
+			String lastName = customerName.lastName();
+			Customer toAdd = new Customer(
+					firstName + " " + lastName,
+					firstName.toLowerCase() +
+							"_" + lastName.toLowerCase() +
+							"@yahoo.com",
+					age
 			);
 
-			Customer jamila = new Customer(
+			/*Customer jamila = new Customer(
 					2,
 					"Jamila",
 					"jamila@gmail.com",
 					19
-			);
+			);*/
 
-			List<Customer> customers = List.of(alex, jamila);
-			customerRepository.saveAll(customers);
+			//List<Customer> customers = List.of(alex, jamila);
+			customerRepository.save(toAdd);
 
 		};
 
