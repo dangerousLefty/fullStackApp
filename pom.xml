@@ -47,6 +47,33 @@
 			<scope>runtime</scope>
 		</dependency>
 
+<!--		Testcontainers dependencies-->
+<!--		Note: we didn't import the junit dependency from the website-->
+<!--		because it is already present in spring-boot-starter-parent-->
+<!--		present in the <parent> tag at the top-->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>testcontainers</artifactId>
+			<version>1.19.7</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>1.19.7</version>
+			<scope>test</scope>
+		</dependency>
+
+<!--		This dependency is specific for postgres databases-->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>1.19.7</version>
+		</dependency>
+
+<!--		End of Testcontainers dependencies-->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
