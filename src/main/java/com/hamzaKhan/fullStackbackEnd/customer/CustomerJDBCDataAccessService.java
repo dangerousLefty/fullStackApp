@@ -92,7 +92,7 @@ public class CustomerJDBCDataAccessService implements CustomerDao {
                 WHERE id = ?
                 """;
 
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class);
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
 
         if (count > 0)
             return true;

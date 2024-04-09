@@ -1,12 +1,17 @@
 package com.hamzaKhan.fullStackbackEnd;
 
+import com.github.javafaker.Faker;
 import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import javax.sql.DataSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -46,4 +51,19 @@ public abstract class AbstractTestcontainers {
         );
     }
 
+    private static DataSource getDataSource() {
+        DataSourceBuilder builder = DataSourceBuilder.create()
+                .driverClassName(postgreSQLContainer.getDriverClassName())
+                .url(postgreSQLContainer.getJdbcUrl())
+                .username(postgreSQLContainer.getUsername())
+                .password(postgreSQLContainer.getPassword());
+
+        return builder.build();
+    }
+
+    protected JdbcTemplate getJdbcTemplate(){
+        return new JdbcTemplate(getDataSource());
+    }
+
+    protected static final Faker FAKER = new Faker();
 }
