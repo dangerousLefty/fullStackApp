@@ -35,12 +35,12 @@ public class CustomerService {
             throw new DuplicateResourceException("email already taken");
 
         //add
-        customerDao.insertCustomer(
-                new Customer(
-                        customerRegistration.name(),
-                        email,
-                        customerRegistration.age())
+        Customer customer = new Customer(
+                customerRegistration.name(),
+                email,
+                customerRegistration.age()
         );
+        customerDao.insertCustomer(customer);
     }
 
     public void deleteCustomer(Integer id){
