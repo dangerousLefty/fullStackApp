@@ -7,12 +7,26 @@ services:
       POSTGRES_PASSWORD: password
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - db:/data/postgres
     ports:
-      - "5432:5432"
+      - "5532:5432"
     networks:
-      - postgres
+      - db
     restart: unless-stopped
+
+  hamzakhan-customerapi:
+    container_name: hamzakhan-customerapi
+    image: dangerouslefty/hamzakhan-customerapi
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/customer
+    ports:
+      - "8088:8080"
+    networks:
+      - db
+    depends_on:
+      - db
+    restart: unless-stopped
+
 
   pgadmin:
     container_name: myPgadminContainer
@@ -26,15 +40,15 @@ services:
     ports:
       - "5050:80"
     networks:
-      - postgres
+      - db
     restart: unless-stopped
     depends_on:
       - db
 
 networks:
-  postgres:
+  db:
     driver: bridge
 
 volumes:
-  postgres:
+  db:
   pgadmin:

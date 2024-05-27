@@ -5,7 +5,6 @@ import com.github.javafaker.Name;
 import com.hamzaKhan.fullStackbackEnd.customer.Customer;
 import com.hamzaKhan.fullStackbackEnd.customer.CustomerRegistrationRequest;
 import com.hamzaKhan.fullStackbackEnd.customer.CustomerUpdateRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class CustomerIntegrationTest {
+public class CustomerIT {
 
     @Autowired
     private WebTestClient webTestClient;
