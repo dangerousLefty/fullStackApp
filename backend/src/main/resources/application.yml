@@ -1,0 +1,23 @@
+server:
+  port: 8080
+  error:
+    include-message: always
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5532/customer
+    username: hamza
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      #      with create-drop, the compiler will delete the schema and make a new one on each load
+
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+  main:
+    web-application-type: servlet
