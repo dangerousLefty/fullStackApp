@@ -3,7 +3,7 @@
   "containerDefinitions": [
     {
       "name": "hamzakhan-customerapi",
-      "image": "dangerouslefty/hamzakhan-customerapi:28.06.2024.22.08.43",
+      "image": "dangerouslefty/hamzakhan-customerapi:28.06.2024.22.21.37",
       "essential": true,
       "memory": 512,
       "portMappings": [
