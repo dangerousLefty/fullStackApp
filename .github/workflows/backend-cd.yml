@@ -31,12 +31,12 @@ jobs:
 
 
     steps:
+      - uses: actions/checkout@v4
       - name: Slack deployment start msg
         run: >
           curl -X POST -H 'Content-type: application/json' 
           --data '{"text":":progress_bar: Deployment Started"}'
           ${{ secrets.SLACK_WEBHOOK_URL }}
-      - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
