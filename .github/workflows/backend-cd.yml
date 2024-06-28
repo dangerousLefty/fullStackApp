@@ -38,7 +38,7 @@ jobs:
           --data '
             {"text":":progress_bar: Deployment Started"}
           '
-          https://hooks.slack.com/services/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
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
