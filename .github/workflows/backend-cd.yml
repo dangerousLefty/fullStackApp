@@ -31,6 +31,11 @@ jobs:
 
 
     steps:
+      - name: Slack deployment start msg
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":progress_bar: Deployment Started"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
@@ -45,8 +50,15 @@ jobs:
       - name: Set build number
         id: build-number
         run: echo "BUILD_NUMBER=$(date '+%d.%m.%Y.%H.%M.%S')" >> $GITHUB_OUTPUT
+
+      - name: Slack login to docker and push img to dockerhub
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":docker: Img version ${{steps.build-number.outputs.BUILD_NUMBER}} pushed to https://hub.docker.com/repository/docker/dangerouslefty/hamzakhan-customerapi"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Build Package Push with Maven
-        run: mvn -ntp -B verify -Ddocker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+        run: mvn -ntp -B verify -D docker.image.tag=${{steps.build-number.outputs.BUILD_NUMBER}} jib:build
+
       - name: Update Dockerrun.aws.json api image tag with new build number
         run: |
           echo "Dockerrun.aws.json before updating tag"
@@ -54,6 +66,12 @@ jobs:
           sed -i -E 's_(dangerouslefty/hamzakhan-customerapi:)([^"]*)_\1'${{steps.build-number.outputs.BUILD_NUMBER}}'_' Dockerrun.aws.json
           echo "Dockerrun.aws.json after updating tag"
           cat Dockerrun.aws.json
+
+      - name: Slack deployment to EBS
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":aws: Starting deployment to Elastic Beanstalk"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -65,6 +83,11 @@ jobs:
           version_description: ${{ github.SHA }}
           region: ${{ secrets.EB_REGION }}
           deployment_package: backend/Dockerrun.aws.json
+      - name: Commit everything to repo
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":":githubloading: Committing to repo https://github.com/dangerousLefty/fullStackApp"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
       - name: Commit and push Dockerrun.aws.json
         run: | 
           git config user.name github-actions
@@ -72,3 +95,8 @@ jobs:
           git add .
           git commit -m "Update Dockerrun.aws.json docker img with new tag ${{ steps.build-number.outputs.BUILD_NUMBER }}"
           git push
+      - name: Job complete
+        run: >
+          curl -X POST -H 'Content-type: application/json' 
+          --data '{"text":"Deployment and commit completed :white_check_mark::party-blob:"}'
+          ${{ secrets.SLACK_WEBHOOK_URL }}
