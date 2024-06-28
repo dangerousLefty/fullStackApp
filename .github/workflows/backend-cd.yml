@@ -35,8 +35,10 @@ jobs:
       - name: Slack deployment start msg
         run: >
           curl -X POST -H 'Content-type: application/json' 
-          --data '{"text":":progress_bar: Deployment Started"}'
-          ${{ secrets.SLACK_WEBHOOK_URL }}
+          --data '
+            {"text":":progress_bar: Deployment Started"}
+          '
+          https://hooks.slack.com/services/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
       - uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
